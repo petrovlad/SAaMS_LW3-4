@@ -3,6 +3,9 @@ package by.petrovlad;
 import java.util.Random;
 import java.util.Scanner;
 
+/**
+ * Hope it'll help some students to pass the Great Melnik.
+ */
 public class Saimmod {
     private static final int N = 1000000;
     private static final String INITIAL_STATE = "2000";
@@ -29,10 +32,10 @@ public class Saimmod {
         pi1 = 0.5d;
         pi2 = 0.7d;
 
-        int processed1 = 0;
+        int processed1Count = 0;
 
-        int l1 = 0;
-        int l2 = 0;
+        int L1 = 0;
+        int L2 = 0;
 
         Random rand = new Random();
         for (int i = 0; i < N; i++) {
@@ -42,63 +45,59 @@ public class Saimmod {
             boolean isProcessed1 = isProcessed(currPi1, pi1);
             boolean isProcessed2 = isProcessed(currPi2, pi2);
 
+            // i know that this switch-case looks a little messy,
+            // but i just dont give a shit
             switch (state) {
-                case "2000":
+                case "2000" -> {
                     P2000++;
                     state = "1000";
-                    break;
-
-                case "1000":
+                }
+                case "1000" -> {
                     P1000++;
                     state = "2010";
-                    break;
-
-                case "2010":
+                }
+                case "2010" -> {
                     P2010++;
+                    // determine state
                     state = isProcessed1 ? "1001" : "1010";
-                    if (isProcessed1) processed1++;
-                    break;
-
-                case "1010":
+                    // increment counters
+                    // pattern is the same in each case branch
+                    if (isProcessed1) processed1Count++;
+                }
+                case "1010" -> {
                     P1010++;
                     state = isProcessed1 ? "2011" : "2110";
-                    if (isProcessed1) processed1++;
-                    break;
-
-                case "2110":
+                    if (isProcessed1) processed1Count++;
+                }
+                case "2110" -> {
                     P2110++;
                     state = isProcessed1 ? "1011" : "1110";
-                    if (isProcessed1) processed1++;
-                    break;
-
-                case "1110":
+                    if (isProcessed1) processed1Count++;
+                }
+                case "1110" -> {
                     P1110++;
                     state = isProcessed1 ? "2111" : "2210";
-                    if (isProcessed1) processed1++;
-                    break;
-
-                case "2210":
+                    if (isProcessed1) processed1Count++;
+                }
+                case "2210" -> {
                     P2210++;
                     state = isProcessed1 ? "1111" : "1210";
-                    if (isProcessed1) processed1++;
-                    break;
-
-                case "1210":
+                    if (isProcessed1) processed1Count++;
+                }
+                case "1210" -> {
                     P1210++;
                     state = isProcessed1 ? "2211" : "2210";
                     if (!isProcessed1) {
                         declinedCount++;
                     }
-                    if (isProcessed1) processed1++;
-                    break;
-
-                case "1001":
+                    if (isProcessed1) processed1Count++;
+                }
+                case "1001" -> {
                     P1001++;
                     state = isProcessed2 ? "2010" : "2011";
                     if (isProcessed2) processedCount++;
-                    break;
-
-                case "2011":
+                }
+                case "2011" -> {
                     P2011++;
                     if (isProcessed1 && isProcessed2) {
                         state = "1001";
@@ -115,10 +114,9 @@ public class Saimmod {
                     if (!isProcessed1 && !isProcessed2) {
                         state = "1011";
                     }
-                    if (isProcessed1) processed1++;
-                    break;
-
-                case "1011":
+                    if (isProcessed1) processed1Count++;
+                }
+                case "1011" -> {
                     P1011++;
                     if (isProcessed1 && isProcessed2) {
                         state = "2011";
@@ -135,10 +133,9 @@ public class Saimmod {
                     if (!isProcessed1 && !isProcessed2) {
                         state = "2111";
                     }
-                    if (isProcessed1) processed1++;
-                    break;
-
-                case "2111":
+                    if (isProcessed1) processed1Count++;
+                }
+                case "2111" -> {
                     P2111++;
                     if (isProcessed1 && isProcessed2) {
                         state = "1011";
@@ -155,10 +152,9 @@ public class Saimmod {
                     if (!isProcessed1 && !isProcessed2) {
                         state = "1111";
                     }
-                    if (isProcessed1) processed1++;
-                    break;
-
-                case "1111":
+                    if (isProcessed1) processed1Count++;
+                }
+                case "1111" -> {
                     P1111++;
                     if (isProcessed1 && isProcessed2) {
                         state = "2111";
@@ -175,10 +171,9 @@ public class Saimmod {
                     if (!isProcessed1 && !isProcessed2) {
                         state = "2211";
                     }
-                    if (isProcessed1) processed1++;
-                    break;
-
-                case "2211":
+                    if (isProcessed1) processed1Count++;
+                }
+                case "2211" -> {
                     P2211++;
                     if (isProcessed1 && isProcessed2) {
                         state = "1111";
@@ -195,10 +190,9 @@ public class Saimmod {
                     if (!isProcessed1 && !isProcessed2) {
                         state = "1211";
                     }
-                    if (isProcessed1) processed1++;
-                    break;
-
-                case "1211":
+                    if (isProcessed1) processed1Count++;
+                }
+                case "1211" -> {
                     P1211++;
                     if (!isProcessed1 && isProcessed2) {
                         state = "2210";
@@ -206,12 +200,12 @@ public class Saimmod {
                     } else {
                         state = "2211";
                         declinedCount++;
-                        if (isProcessed2)  {
+                        if (isProcessed2) {
                             processedCount++;
                         }
                     }
-                    if (isProcessed1) processed1++;
-                    break;
+                    if (isProcessed1) processed1Count++;
+                }
             }
             if (state.charAt(0) == '1') generatedCount++;
 
@@ -223,8 +217,8 @@ public class Saimmod {
             secondChannel += T2;
             requestLength += J + T1 + T2;
 
-            l1 += J + T1;
-            l2 += T2;
+            L1 += J + T1;
+            L2 += T2;
         }
 
         System.out.println("P2010 = " + (double)P2010 / N);
@@ -240,19 +234,19 @@ public class Saimmod {
         System.out.println("P2111 = " + (double)P2111 / N);
         System.out.println("P1110 = " + (double)P1110 / N);
         System.out.println("P1211 = " + (double)P1211 / N);
-        System.out.println("Сумма = " + (double)(P2000 + P1000 + P2010 + P1001 + P1111 + P2210 + P2011 + P1010
+        System.out.println("Sum = " + (double)(P2000 + P1000 + P2010 + P1001 + P1111 + P2210 + P2011 + P1010
                 + P2211 + P1210 + P1011 + P2110 + P1111 + P1110 + P1211) / N);
 
         System.out.println("A = " + (double)processedCount / N);
-        System.out.println("Lоч = " + (double)queueLength / N);
-        System.out.println("Lс = " + (double)requestLength / N);
-        System.out.println("Wqueue = " + (double)queueLength / processed1);
-        //System.out.println("Wоч = " + (double)queueLength / ((1 - pi1) * (firstChannel)));
-        //System.out.println("Wsys = " + ((double)queueLength / ((1 - pi1) * (firstChannel)) + 1 / (1 - pi1) + 1 / (1 - pi2)));
-        //System.out.println("Wc = " + ((double)l1 / processedCount + l2 / processedCount));
-        System.out.println("Wc = " + ((double)l1 / processed1 + (double)l2 / processedCount));
+        System.out.println("Lqueue = " + (double)queueLength / N);
+        System.out.println("Lsys = " + (double)requestLength / N);
+        System.out.println("Wqueue = " + (double)queueLength / processed1Count);
+        System.out.println("Wsys = " + ((double)L1 / processed1Count + (double)L2 / processedCount));
+        // Analytic formulas for testing
+        // System.out.println("Wqueue = " + (double)queueLength / ((1 - pi1) * (firstChannel)));
+        // System.out.println("Wsys = " + ((double)queueLength / ((1 - pi1) * (firstChannel)) + 1 / (1 - pi1) + 1 / (1 - pi2)));
         System.out.println("Q = " + (double)processedCount / generatedCount);
-        System.out.println("Pотк = " + (double)declinedCount / generatedCount);
+        System.out.println("Pdecl = " + (double)declinedCount / generatedCount);
         System.out.println("K1 = " + (double)firstChannel / N);
         System.out.println("K2 = " + (double)secondChannel / N);
     }
